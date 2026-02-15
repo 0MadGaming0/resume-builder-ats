@@ -1,20 +1,21 @@
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 function ATSCheck() {
   const navigate = useNavigate();
 
-  const handleCheck = () => {
-    navigate("/ats-result");
-  };
-
   return (
-    <div className="page">
+    <motion.div
+      className="page"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+    >
       <h2>ATS Check</h2>
 
-      <button onClick={handleCheck}>
+      <button onClick={() => navigate("/ats-result")}>
         Check Resume
       </button>
-    </div>
+    </motion.div>
   );
 }
 

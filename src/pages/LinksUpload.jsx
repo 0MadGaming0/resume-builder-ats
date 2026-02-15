@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -8,43 +9,39 @@ function LinksUpload() {
 
   const handleBuild = () => {
     if (!linkedin || !github) {
-      alert("Please enter both LinkedIn and GitHub links.");
+      alert("Please fill both links");
       return;
     }
-
     navigate("/loading");
   };
 
   return (
-    <div className="page">
+    <motion.div
+      className="page"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+    >
       <h2>Upload Essential Links</h2>
 
-      <div style={{ marginTop: "30px" }}>
-        <input
-          type="text"
-          placeholder="LinkedIn URL"
-          value={linkedin}
-          onChange={(e) => setLinkedin(e.target.value)}
-          style={{ padding: "10px", margin: "10px", width: "250px" }}
-        />
+      <input
+        placeholder="LinkedIn URL"
+        value={linkedin}
+        onChange={(e) => setLinkedin(e.target.value)}
+      />
 
-        <br />
+      <br />
 
-        <input
-          type="text"
-          placeholder="GitHub URL"
-          value={github}
-          onChange={(e) => setGithub(e.target.value)}
-          style={{ padding: "10px", margin: "10px", width: "250px" }}
-        />
+      <input
+        placeholder="GitHub URL"
+        value={github}
+        onChange={(e) => setGithub(e.target.value)}
+      />
 
-        <br />
+      <br />
 
-        <button onClick={handleBuild}>
-          Build Resume
-        </button>
-      </div>
-    </div>
+      <button onClick={handleBuild}>Build Resume</button>
+    </motion.div>
   );
 }
 

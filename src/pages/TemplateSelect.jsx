@@ -1,27 +1,30 @@
+import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 function TemplateSelect() {
   const navigate = useNavigate();
 
   return (
-    <div className="page">
+    <motion.div
+      className="page"
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+    >
       <h2>Select a Template</h2>
 
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px", marginTop: "30px" }}>
+      <div className="template-grid">
         {[1,2,3,4,5,6].map((item) => (
-          <div
+          <motion.div
             key={item}
-            style={{
-              height: "120px",
-              background: "#ddd",
-              borderRadius: "8px",
-              cursor: "pointer"
-            }}
+            className="template-card"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => navigate("/links")}
           />
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
