@@ -1,47 +1,61 @@
-import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function LinksUpload() {
   const navigate = useNavigate();
+
   const [linkedin, setLinkedin] = useState("");
   const [github, setGithub] = useState("");
+  const [error, setError] = useState("");
 
-  const handleBuild = () => {
+  const handleBuildResume = () => {
     if (!linkedin || !github) {
-      alert("Please fill both links");
+      setError("Please provide both LinkedIn and GitHub links.");
       return;
     }
+
+    setError("");
     navigate("/loading");
   };
 
   return (
-    <motion.div
-      className="page"
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-    >
-      <h2>Upload Essential Links</h2>
+    <div className="page">
+      <div className="upload-card">
+        <h2>Upload Resume Links</h2>
 
-      <input
-        placeholder="LinkedIn URL"
-        value={linkedin}
-        onChange={(e) => setLinkedin(e.target.value)}
-      />
+        <div className="input-group">
+          <label>LinkedIn Profile *</label>
+          <input
+            type="text"
+            placeholder="https://linkedin.com/in/yourprofile"
+            value={linkedin}
+            onChange={(e) => setLinkedin(e.target.value)}
+            required
+          />
+        </div>
 
-      <br />
+        <div className="input-group">
+          <label>GitHub Profile *</label>
+          <input
+            type="text"
+            placeholder="https://github.com/yourusername"
+            value={github}
+            onChange={(e) => setGithub(e.target.value)}
+            required
+          />
+        </div>
 
-      <input
-        placeholder="GitHub URL"
-        value={github}
-        onChange={(e) => setGithub(e.target.value)}
-      />
+        {error && (
+          <p style={{ color: "#f87171", marginBottom: "15px" }}>
+            {error}
+          </p>
+        )}
 
-      <br />
-
-      <button onClick={handleBuild}>Build Resume</button>
-    </motion.div>
+        <button className="btn-primary" onClick={handleBuildResume}>
+          Build Resume
+        </button>
+      </div>
+    </div>
   );
 }
 

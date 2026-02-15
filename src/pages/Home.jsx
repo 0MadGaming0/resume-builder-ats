@@ -1,24 +1,31 @@
-import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
   const navigate = useNavigate();
 
   return (
-    <motion.div
-      className="page"
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-    >
-      <h2>AI Resume Builder</h2>
+    <div className="page">
+      <div className="home-content">
+        <h1>AI Resume Builder</h1>
+        <p>Create ATS-Friendly Professional Resumes</p>
 
-      <button onClick={() => navigate("/templates")}>
-        Create Resume
-      </button>
+        <div className="home-buttons">
+          <button
+            className="btn-primary"
+            onClick={() => navigate("/templates")}
+          >
+            Create Resume
+          </button>
 
-      <button>Import Resume</button>
-    </motion.div>
+          <button
+            className="btn-secondary"
+            onClick={() => navigate("/import")}
+          >
+            Import Resume
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 

@@ -1,30 +1,41 @@
-import { motion } from "framer-motion";
+import { templates } from "../data/templates";
 import { useNavigate } from "react-router-dom";
 
 function TemplateSelect() {
   const navigate = useNavigate();
 
   return (
-    <motion.div
-      className="page"
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-    >
-      <h2>Select a Template</h2>
+    <div className="page">
+      <div className="card">
+        <div className="template-grid">
+          {templates.map((template) => (
+            <div key={template.id} className="template-card">
+              <img
+                src={template.preview}
+                alt="Template Preview"
+                className="template-image"
+              />
 
-      <div className="template-grid">
-        {[1,2,3,4,5,6].map((item) => (
-          <motion.div
-            key={item}
-            className="template-card"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => navigate("/links")}
-          />
-        ))}
+              <div className="template-buttons">
+                <button
+                  className="btn-outline"
+                  onClick={() => window.open(template.file)}
+                >
+                  Preview
+                </button>
+
+                <button
+                  className="btn-primary"
+                  onClick={() => navigate("/upload")}
+                >
+                  Use Template
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
