@@ -8,9 +8,23 @@ function LinksUpload() {
   const [github, setGithub] = useState("");
   const [error, setError] = useState("");
 
+  const validateURL = (url, domain) => {
+    try {
+      const parsed = new URL(url);
+      return parsed.hostname.includes(domain);
+    } catch {
+      return false;
+    }
+  };
+
   const handleBuildResume = () => {
-    if (!linkedin || !github) {
-      setError("Please provide both LinkedIn and GitHub links.");
+    if (!validateURL(linkedin, "linkedin.com")) {
+      setError("Please enter a valid LinkedIn profile URL.");
+      return;
+    }
+
+    if (!validateURL(github, "github.com")) {
+      setError("Please enter a valid GitHub profile URL.");
       return;
     }
 
@@ -21,16 +35,15 @@ function LinksUpload() {
   return (
     <div className="page">
       <div className="upload-card">
-        <h2>Upload Resume Links</h2>
+        <h2>Build Resume</h2>
 
         <div className="input-group">
           <label>LinkedIn Profile *</label>
           <input
             type="text"
-            placeholder="https://linkedin.com/in/yourprofile"
             value={linkedin}
             onChange={(e) => setLinkedin(e.target.value)}
-            required
+            placeholder="https://linkedin.com/in/yourprofile"
           />
         </div>
 
@@ -38,10 +51,9 @@ function LinksUpload() {
           <label>GitHub Profile *</label>
           <input
             type="text"
-            placeholder="https://github.com/yourusername"
             value={github}
             onChange={(e) => setGithub(e.target.value)}
-            required
+            placeholder="https://github.com/yourusername"
           />
         </div>
 

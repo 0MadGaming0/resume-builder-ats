@@ -1,5 +1,6 @@
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+
 import Home from "./pages/Home";
 import TemplateSelect from "./pages/TemplateSelect";
 import LinksUpload from "./pages/LinksUpload";
@@ -9,9 +10,9 @@ import Success from "./pages/Success";
 import ATSCheck from "./pages/ATSCheck";
 import ATSResult from "./pages/ATSResult";
 import Chatbot from "./pages/Chatbot";
+import ProtectedRoute from "./pages/ProtectedRoute";
 
 function App() {
-  const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,8 +29,26 @@ function App() {
       <Route path="/import" element={<ImportResume />} />
       <Route path="/loading" element={<Loading />} />
       <Route path="/success" element={<Success />} />
-      <Route path="/ats-check" element={<ATSCheck />} />
-      <Route path="/ats-result" element={<ATSResult />} />
+
+     
+      <Route
+        path="/ats-check"
+        element={
+          <ProtectedRoute>
+            <ATSCheck />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/ats-result"
+        element={
+          <ProtectedRoute>
+            <ATSResult />
+          </ProtectedRoute>
+        }
+      />
+
       <Route path="/chatbot" element={<Chatbot />} />
     </Routes>
   );

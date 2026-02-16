@@ -5,15 +5,19 @@ function Loading() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
-      navigate("/result");
-    }, 2000);
+    const timer = setTimeout(() => {
+      localStorage.setItem("resumeBuilt", "true"); 
+      navigate("/success");
+    }, 2500); 
+
+    return () => clearTimeout(timer);
   }, [navigate]);
 
   return (
     <div className="page">
-      <div className="page-content center">
-        <h2>Checking your details...</h2>
+      <div className="upload-card">
+        <h2>Generating Your Resume...</h2>
+        <div className="loader"></div>
       </div>
     </div>
   );
