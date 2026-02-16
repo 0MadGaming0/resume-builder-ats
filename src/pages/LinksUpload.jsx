@@ -6,29 +6,51 @@ function LinksUpload() {
 
   const [linkedin, setLinkedin] = useState("");
   const [github, setGithub] = useState("");
+  const [jobDesc, setJobDesc] = useState("");
   const [error, setError] = useState("");
 
-  const validateURL = (url, domain) => {
-    try {
-      const parsed = new URL(url);
-      return parsed.hostname.includes(domain);
-    } catch {
-      return false;
+  const validate = () => {
+    if (!linkedin.trim() || !linkedin.includes("linkedin.com")) {
+      return "Please enter a valid LinkedIn URL.";
     }
+
+    if (!github.trim() || !github.includes("github.com")) {
+      return "Please enter a valid GitHub URL.";
+    }
+
+    if (!jobDesc.trim()) {
+      return "Job description is required.";
+    }
+
+    if (jobDesc.trim().length < 20) {
+      return "Job description must be at least 20 characters.";
+    }
+
+    // Must contain at least one alphabet character
+    const hasLetter = /[a-zA-Z]/.test(jobDesc);
+
+    if (!hasLetter) {
+      return "Job description must include valid text (not only numbers or symbols).";
+    }
+
+    return "";
   };
 
   const handleBuildResume = () => {
-    if (!validateURL(linkedin, "linkedin.com")) {
-      setError("Please enter a valid LinkedIn profile URL.");
+    const validationError = validate();
+
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
-    if (!validateURL(github, "github.com")) {
-      setError("Please enter a valid GitHub profile URL.");
-      return;
-    }
-
+    // Clear error
     setError("");
+
+    // Mark resume as built (for protected routes)
+    localStorage.setItem("resumeBuilt", "true");
+
+    // Navigate to loading page
     navigate("/loading");
   };
 
@@ -41,9 +63,9 @@ function LinksUpload() {
           <label>LinkedIn Profile *</label>
           <input
             type="text"
+            placeholder="https://linkedin.com/in/yourprofile"
             value={linkedin}
             onChange={(e) => setLinkedin(e.target.value)}
-            placeholder="https://linkedin.com/in/yourprofile"
           />
         </div>
 
@@ -51,9 +73,18 @@ function LinksUpload() {
           <label>GitHub Profile *</label>
           <input
             type="text"
+            placeholder="https://github.com/yourusername"
             value={github}
             onChange={(e) => setGithub(e.target.value)}
-            placeholder="https://github.com/yourusername"
+          />
+        </div>
+
+        <div className="input-group">
+          <label>Job Description *</label>
+          <textarea
+            placeholder="Paste the job description here..."
+            value={jobDesc}
+            onChange={(e) => setJobDesc(e.target.value)}
           />
         </div>
 
